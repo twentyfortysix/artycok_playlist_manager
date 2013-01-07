@@ -1,0 +1,39 @@
+/*
+Theme Name: manager
+Theme URI: 
+Author: 2046.cz
+Author URI: http://2046.cz
+Description: This theme is a playlist manager in it self, done for Artycok.TV
+Version: .01
+*/
+body{background: #F3F3F3;}
+ul, li{margin-left:0;padding-left;0;list-style-type: none;}
+li{padding: 3px;}
+li:hover{background:#fff;-webkit-border-radius: 4px;
+        border-radius: 4px;cursor: pointer}
+input[type="checkbox"]{margin:-1px 0 0 0}
+input.wide{width: 100%;}
+.playlist{background:#fff;padding:0.5em
+	-webkit-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 0 10px #C8C8C8;
+        -moz-box-shadow: 0 0 10px #C8C8C8;
+        box-shadow: 0 0 10px #C8C8C8;}
+.playlist .icon-eject{float: right;cursor:pointer;}
+.playlist li:hover{cursor:move;}
+.playlist .item{width: 90%;}
+.playlist small{line-height: 7px;}
+.item{display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space: nowrap;}
+*{-webkit-transition: background 0.2s;
+-moz-transition: background 0.2s;
+-ms-transition: background 0.2s;
+-o-transition: background 0.2s;
+transition: background 0.2s;}
+
+input.tiny{width:30px}
+.message{transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;}
+
+.header{text-align:center}
