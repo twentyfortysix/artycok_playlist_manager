@@ -11,26 +11,7 @@ if(is_user_logged_in()){
 				<?php $current_user = wp_get_current_user();
 				echo "<h4><small>Hi</small> " . $current_user->display_name ." <small>this is your playground.</small></h4>"; ?>
 			</div>
-			<div class="span4">
-				<!--Sidebar content-->
-				<h4>Obsah <small>({{items.length}})</small></h4> 
-				<input type="text" class="wide" ng-model="query" placeholder="filter">
-				
-
-				<!--Body content-->
-
-				<ul class="items">
-					<li ng-repeat="item in items | filter:{done:false} | filter:query " ng-click="doneTrue()" class="item">
-						{{item.name}}
-
-						<!-- <div class="hide">
-							<br><small><b>360p: </b>{{item.360p}}</small>
-							<br><small><b>720p: </b>{{item.720p}}</small>
-							<br><small><b>1080p: </b>{{item.1080p}}</small>
-						</div> -->
-					</li>
-				</ul>
-			</div>
+		
 			<div class="span4">
 				{{tmp}}
 				<h4>Playlist</h4>
@@ -46,12 +27,11 @@ if(is_user_logged_in()){
 				<h5>Můj playlist</h5>
 				<div class="playlist"><small>&nbsp;</small>
 
-					
-					<ul ui-sortable ui-options="{update: update, axis: 'y'}" ng-model="items">
-						<li ng-repeat="item in items | filter:{done:true}">
-							<span class="item">i{{$index}} {{ item.pos }} / {{ item.name }}</span> <i class="icon-eject" ng-click="doneFalse()"></i>
-						</li>
-					</ul>
+					<ul ui-sortable ui-options="{update: update, axis: 'y'}" ng-model="videos">
+				<li ng-repeat="item in videos | orderBy:pos:reverse" fadey="500">
+					<span class="item"><span class="muted">{{item.pos}} </span><i class="icon-resize-vertical"></i> {{item.name}}</span> <i class="rem icon-remove-sign" ng-click="doneFalse()"></i>
+				</li>
+			</ul>
 					<!-- <ul ui-sortable ui-options="{update: update, axis: 'y'}" ng-model="videos">
 						<li ng-repeat="item in videos | orderBy:pos:reverse" fadey="500">
 							<span class="item">{{item.pos}} / {{item.name}}</span> <i class="icon-eject" ng-click="doneFalse()"></i>
@@ -73,14 +53,37 @@ if(is_user_logged_in()){
 				<!-- save tha playlist -->
 				<input class="form_submit wide" type="submit" ng-click="submit()" value="Save" />
 				<div ng-bind-html-unsafe="answer" class="message"></div>
-				<ul ui-sortable ui-options="{update: update, axis: 'y'}" ng-model="videos">
-					<li ng-repeat="item in videos | orderBy:pos:reverse" fadey="500">
-						<span class="item">{{item.pos}} / {{item.name}}</span> <i class="icon-eject" ng-click="doneFalse()"></i>
-					</li>
-				</ul>
+			<!-- 	
+					<ul ui-sortable ui-options="{update: update, axis: 'y'}" ng-model="items">
+						<li ng-repeat="item in items | filter:{done:true}">
+							<span class="item">i{{$index}} {{ item.pos }} / {{ item.name }}</span> <i class="icon-eject" ng-click="doneFalse()"></i>
+						</li>
+					</ul> -->
 				
 
 				<!-- {{ items | filter:{done:true} }} -->
+			</div>
+
+
+			<div class="span4 list">
+				<!--Sidebar content-->
+				<h4>Obsah <small>({{items.length}})</small></h4> 
+				<input type="text" class="wide" ng-model="query" placeholder="filter">
+				
+
+				<!--Body content-->
+
+				<ul class="items">
+					<li ng-repeat="item in items | filter:{done:false} | filter:query " ng-click="doneTrue()" class="item">
+						<i class="icon-chevron-left"></i> {{item.name}}
+
+						<!-- <div class="hide">
+							<br><small><b>360p: </b>{{item.360p}}</small>
+							<br><small><b>720p: </b>{{item.720p}}</small>
+							<br><small><b>1080p: </b>{{item.1080p}}</small>
+						</div> -->
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

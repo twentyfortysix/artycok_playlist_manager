@@ -36,8 +36,77 @@ function f_2046_add_scripts() {
 	wp_enqueue_script( 'manager-controler' );
 	wp_enqueue_style( 'bootstrap-css' );
 	wp_enqueue_style( 'my-css' );
+	if(is_author()){
+
+		wp_register_script ( 'jwplayer', get_bloginfo('template_directory') .'/jwplayer/jwplayer.js');	
+		wp_enqueue_script( 'jwplayer' );
+	}
 	
 }
 add_action('wp_enqueue_scripts', 'f_2046_add_scripts');
 
 
+/* Disable the Admin Bar. */
+add_filter( 'show_admin_bar', '__return_false' );
+
+function yoast_hide_admin_bar_settings() {
+?>
+	<style type="text/css">
+		.show-admin-bar {
+			display: none;
+		}
+	</style>
+<?php
+}
+
+function yoast_disable_admin_bar() {
+    add_filter( 'show_admin_bar', '__return_false' );
+    add_action( 'admin_print_scripts-profile.php', 
+         'yoast_hide_admin_bar_settings' );
+}
+add_action( 'init', 'yoast_disable_admin_bar' , 9 );
+
+// clear "\n" 
+function remove_enter($matches){
+	$output = str_replace("\n", "", $matches);
+	return $output;
+}
+// remove ".mp4"
+function remove_sufix($matches){
+	$output = str_replace(".mp4", "", $matches);
+	return $output;
+}
+// remove qaulity from file(path) name such as" 360p etc.
+function remove_quality($matches){
+	$exploded = explode('-',$matches);
+	// mydump($exploded);
+	$output = str_replace(end($exploded), "", $matches);
+	return $output;
+}
+//  get the quality out of the string
+function get_quality($matches){
+	$exploded = explode('-',$matches);
+	// mydump(end($exploded));
+	$output = end($exploded);
+	return $output;
+}
+// remove unwanted dashes (bueatify the file name)
+function remove_dashes($matches){
+	$output = str_replace("-", " ", $matches);
+	return $output;
+}
+// remove unwanted string from file path
+function remove_current_path($matches){
+	$output = str_replace("./", "", $matches);
+	return $output;
+}
+// remove unwanted string from file path
+function remove_spaces($matches){
+	$output = str_replace(" ", "", $matches);
+	return $output;
+}
+// remove unwanted string from file path
+function remove_p($matches){
+	$output = str_replace("p", "", $matches);
+	return $output;
+}
