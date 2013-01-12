@@ -1,4 +1,8 @@
 <?php 
+// globals
+$streamer = 'rtmp://server5.streaming.cesnet.cz/vod';
+$available_qualities = array('180p', '360p', '720p', '1080p');
+// register sidebars
 register_sidebar( array(
 
 		'name' => __( 'Login', 'twentyeleven' ),
@@ -16,6 +20,7 @@ register_sidebar( array(
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
+// add scripts to HTML head
 function f_2046_add_scripts() {
 	wp_deregister_script( 'jquery' );
 	
@@ -24,19 +29,23 @@ function f_2046_add_scripts() {
 	wp_register_script ( 'angular-min', get_bloginfo('template_directory') .'/js/angular.min.js',array('jquery'));
 	wp_register_script ( 'angular-min-ui', get_bloginfo('template_directory') .'/js/angular-ui.min.js',array('angular-min'));
 	wp_register_script ( 'manager-controler', get_bloginfo('template_directory') .'/js/controler.js',array('angular-min-ui'));	
-	// wp_register_script ( 'bootstrap-js', get_bloginfo('template_directory') .'/bootstrap/js/bootstrap.min.js',array('jquery'));	
+	wp_register_script ( 'bootstrap-js', get_bloginfo('template_directory') .'/bootstrap/js/bootstrap.min.js',array('jquery'));	
+	// wp_register_script ( 'underscore-js', get_bloginfo('template_directory') .'/js/underscore-min.js',array('jquery'));	
 	wp_register_style ( 'bootstrap-css', get_bloginfo('template_directory') .'/bootstrap/css/bootstrap.css');
+	wp_register_style ( 'bootstrap-responsive-css', get_bloginfo('template_directory') .'/bootstrap/css/bootstrap-responsive.min.css', array('bootstrap-css'));
 	wp_register_style ( 'my-css', get_bloginfo('template_directory') .'/style.css', array('bootstrap-css'));
 	
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui' );
-	// wp_enqueue_script( 'bootstrap-js' );
+	wp_enqueue_script( 'bootstrap-js' );
 	wp_enqueue_script( 'angular-min' );
 	wp_enqueue_script( 'angular-min-ui' );
 	wp_enqueue_script( 'manager-controler' );
+	// wp_enqueue_script( 'underscore-js' );
 	wp_enqueue_style( 'bootstrap-css' );
+	wp_enqueue_style( 'bootstrap-responsive-css' );
 	wp_enqueue_style( 'my-css' );
-	if(is_author()){
+	if(is_author() || is_page(2)){
 
 		wp_register_script ( 'jwplayer', get_bloginfo('template_directory') .'/jwplayer/jwplayer.js');	
 		wp_enqueue_script( 'jwplayer' );
@@ -58,7 +67,7 @@ function yoast_hide_admin_bar_settings() {
 	</style>
 <?php
 }
-
+// disable WP admin bar
 function yoast_disable_admin_bar() {
     add_filter( 'show_admin_bar', '__return_false' );
     add_action( 'admin_print_scripts-profile.php', 
@@ -97,7 +106,7 @@ function remove_dashes($matches){
 }
 // remove unwanted string from file path
 function remove_current_path($matches){
-	$output = str_replace("./", "", $matches);
+	$output = str_replace("../artycok/", "", $matches);
 	return $output;
 }
 // remove unwanted string from file path

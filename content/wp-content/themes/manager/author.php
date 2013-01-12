@@ -13,30 +13,34 @@ $playlist = $curauth->playlist;
 $playlist_switch = $curauth->playlist_switch;
 
 $jw_playlist = array();
-$streamer = 'rtmp://server5.streaming.cesnet.cz/vod';
-$available_qualities = array('180p', '360p', '720p', '1080p');
+// streame ris in the global var
+//$streamer = 'rtmp://server5.streaming.cesnet.cz/vod';
+global $streamer;
+global $available_qualities;
 
 $length = sizeOf($playlist);
 
 // open the playlist string
-$jwplayer_playlist = 'playlist: [';
+$jwplayer_playlist = "playlist: [\n";
 // rebuild the playlist for player
 $i = 0;
 foreach ($playlist as $key => $value) {
 	$tmp_video_quality = 0;
+	$tmp_link = '';
 	$jwplayer_playlist .= '{sources: [{' ;
-	foreach ($value as $k => $v) {
-		// take the best video quality available
-		// and push it to the player playlist
-		if( in_array($k, $available_qualities) && $tmp_video_quality < remove_p($k)) {
-			$jwplayer_playlist .= 'file: "'. $streamer .'/_definst_/others/avu/artycok/'. $v.'"';
-			$tmp_video_quality = remove_p($k);
+		foreach ($value as $k => $v) {
+			// take the best video quality available
+			// and push it to the player playlist
+			if( in_array($k, $available_qualities) && $tmp_video_quality < remove_p($k)) {
+				$tmp_link = 'file: "'. $streamer .'/_definst_/others/avu/artycok/'. $v.'"';
+				$tmp_video_quality = remove_p($k);
+			}
 		}
-	}
-	$jwplayer_playlist .= '}' ;
+		$jwplayer_playlist .= $tmp_link;
+		$jwplayer_playlist .= '}' ;
 	// just do the propriate javascript array closing
 	if($i != $length-1){
-		$jwplayer_playlist .= ']}, ';	
+		$jwplayer_playlist .= "]},\n";	
 	}else{
 		$jwplayer_playlist .= ']';
 	}
@@ -53,8 +57,8 @@ jQuery(document).ready(function($) {
 	var viewportHeight = $(window).height();
 
 	jwplayer('player_7526').setup({
-		<?php echo $jwplayer_playlist; ?>		
-
+		<?php echo $jwplayer_playlist; ?>,
+		autostart: "true"
 		// playlist: [
 		// 	{ sources: [
 	 	//        { 

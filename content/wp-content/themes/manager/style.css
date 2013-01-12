@@ -7,19 +7,15 @@ Description: This theme is a playlist manager in it self, done for Artycok.TV
 Version: .01
 */
 body{background: #F3F3F3;}
+a{color:#268530}
 ul, li{margin-left:0;padding-left;0;list-style-type: none;}
 li{padding: 3px;border-bottom:1px solid #fff;border-top:1px solid #fff;}
-li:hover{background:#fff;border-top:1px solid #D2D2D2;border-bottom:1px solid #D2D2D2;/* -webkit-border-radius: 4px; border-radius: 4px; */cursor: pointer;}
-input[type="checkbox"]{margin:-1px 0 0 0}
+li:hover{background:#fff;border-top:1px solid #D2D2D2;border-bottom:1px solid #D2D2D2;cursor: pointer;color:#000}
+.playlist_col{min-height:3em;background: #D4D4D4;display:block;padding:1em 0.5em 2em 0.5em;-webkit-box-shadow: inset 0 0 10px #aaa; box-shadow: inset 0 0 10px #aaa;-webkit-border-radius: 4px; border-radius: 4px;}
+.playlist_col:empty{background: url(images/loadinfo-d4d4d4-bg.gif) no-repeat center 5px }
+.playlist_col li{padding: 3px;border-bottom:1px solid #EFEFEF;border-top:1px solid #EFEFEF;}
+.playlist_col li:hover{background:#F3F3F3;}
 input.wide{width: 100%;}
-.playlist{
-	/* background:#fff;padding:0.5em
-	-webkit-border-radius: 5px;
-	        border-radius: 5px;
-	        -webkit-box-shadow: 0 0 10px #C8C8C8;
-	        -moz-box-shadow: 0 0 10px #C8C8C8;
-	        box-shadow: 0 0 10px #C8C8C8; */
-	}
 .playlist .rem {float: right;cursor:pointer;}
 .playlist li:hover{cursor:move;}
 .playlist .item{width: 90%;}
@@ -30,7 +26,16 @@ input.wide{width: 100%;}
 -ms-transition: background 0.2s;
 -o-transition: background 0.2s;
 transition: background 0.2s;}
-
+i {	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter: alpha(opacity=70);
+	-moz-opacity:0.7;
+	-khtml-opacity: 0.7;
+	opacity: 0.7;}
+i:hover {	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	-moz-opacity:1;
+	-khtml-opacity: 1;
+	opacity: 1;}
 input.tiny{width:30px}
 .message{transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -38,3 +43,6 @@ input.tiny{width:30px}
   -webkit-transition: all 0.5s ease;}
 
 .header{text-align:center}
+.alignright{float: right;}
+button.clear-filter, input.input-filter{height:2em !important}
+.swith_true, .swith_true:hover{background:#BE2236;color:#fff;}

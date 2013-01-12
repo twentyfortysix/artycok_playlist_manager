@@ -6,7 +6,8 @@ Template name: convert to JSON
 // $handle = fopen("list", "r");
 // Get a file into an array.  In this example we'll go through HTTP to get
 // the HTML source of a URL.
-$file = file('http://localhost/artycokTV/wordpress/wp-content/themes/manager/list_full'); // list_full
+// $file = file('http://manager.artycok.tv/content/wp-content/themes/manager/list'); // list_full
+$file = file('/var/www/cesnet/file_structure'); // list_full
 $output = array();
 // get user playlist if any
 $current_user = wp_get_current_user();
@@ -69,6 +70,11 @@ foreach($file as $each){
 	 // add the file name to tmp, so we can can check new coming agains it
 	$tmp = $name;
 }
+
+// resort by "pos" ! works only on for PHP 5.3+
+usort($output, function($a, $b) {
+    return $a['pos'] - $b['pos'];
+});
 
 // decode to JSON
 $file_in_json = json_encode($output);

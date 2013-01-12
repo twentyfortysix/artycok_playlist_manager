@@ -1,32 +1,37 @@
 this.myApp = angular.module('myApp', ['ui']);
 // fade in custom directive when item is added by ng-repeat
 myApp.directive('fadey', function() {
-    return {
+	return {
         // restrict: 'A',
         link: function(scope, elm, attrs) {
-            var duration = parseInt(attrs.fadey);
-            if (isNaN(duration)) {
-                duration = 200;
-            }
-            elm = jQuery(elm);
-            elm.hide();
-            elm.fadeIn(duration)
+        	var duration = parseInt(attrs.fadey);
+        	if (isNaN(duration)) {
+        		duration = 200;
+        	}
+        	elm = jQuery(elm);
+        	elm.hide();
+        	elm.fadeIn(duration)
 
-            scope.destroy = function(complete) {
-                elm.fadeOut(duration, function() {
-                    if (complete) {
-                        complete.apply(scope);
-                    }
-                });
-            };
+        	scope.destroy = function(complete) {
+        		elm.fadeOut(duration, function() {
+        			if (complete) {
+        				complete.apply(scope);
+        			}
+        		});
+        	};
         }
     };
 });
 
 function PhoneListCtrl($scope, $filter, $parse, $http) {
+	// get default playlist
+	$scope.default_playlist = [];
+	$http.get('http://manager.artycok.tv/?page_id=15').success(function(data) {
+		$scope.default_playlist = data;
+	});
+	// get the external JSON file of all videos
 	$scope.videos = [];
-	// get the external JSON file 
-	$http.get('http://localhost/artycokTV/wordpress/?page_id=12').success(function(data) {
+	$http.get('http://manager.artycok.tv/?page_id=12').success(function(data) {
 		$scope.items = data;
 		// pus the filtred items to videos
 		// videos have lateer proper position index when sorted by user
@@ -47,6 +52,7 @@ function PhoneListCtrl($scope, $filter, $parse, $http) {
 	$scope.doneTrue = function() {
 		this.item.done = true;
 		$scope.videos.push(this.item);
+		$scope.update;
 	};
 	// setter for done
 	$scope.doneFalse = function() {
@@ -55,6 +61,23 @@ function PhoneListCtrl($scope, $filter, $parse, $http) {
 		this.item.pos = 0;
 		// remove this from the vides array
 		$scope.videos.splice($scope.videos.indexOf(this.item), 1);
+	};
+	// cear filter
+	 $scope.clearFilter = function() {
+      $scope.query = '';
+    };
+	$scope.showModal = function(video) {
+		// define the video link out of the curent object
+		video_link = 'rtmp://server5.streaming.cesnet.cz/vod/_definst_/others/avu/artycok/' + video;
+		//  setup jwplayer
+		jwplayer('player_modal').setup({
+			file: video_link,
+			autostart: "true",
+	    	width: 510,
+	    	height: 305
+	    });
+	    //  show the player in the bootstrap modal view
+		$('#myModal').modal();
 	};
 
 	$scope.update = function($parse) {
@@ -81,9 +104,23 @@ function PhoneListCtrl($scope, $filter, $parse, $http) {
 		// console.log('===========');
 		// return console.log(["Updated", $scope.items]);
 	};
+	// load the default playlist in the user playlist
+	$scope.loadDefaultPlaylist = function(){
+		// merge the default playlist values with the whole items array
+		// basicaly change the "done" value to "true"
+		angular.forEach($scope.items, function(i_value, i_key){
+			angular.forEach($scope.default_playlist, function(p_value, p_key){
+				if(i_value.name == p_value.name){
+					i_value.done = true;
+				}
+			});
+		});
+		// update scope.videos
+		$scope.videos = $filter('filter')($scope.items, {'done': true});
+	};
 	//~ THIS has to be changed according to the real link!
 	// var url = 'http://localhost/artycokTV/wordpress/wp-content/themes/manager/helper.php';
-	var url = 'http://localhost/artycokTV/wordpress/?page_id=10';
+	var url = 'http://manager.artycok.tv/?page_id=10';
 	$scope.submit = function() {
 		 // Create the http post request
 		// the data holds the keywords
@@ -92,12 +129,12 @@ function PhoneListCtrl($scope, $filter, $parse, $http) {
 			'playlist' : $scope.videos,
 			'playlist_switch' : $scope.playlist_switch,
 			'nonce' : $scope.nonce
-			};
+		};
 		$http.post(url, { "data" : message}).
-			success(function(data, status) {
-				$scope.status = status;
-				$scope.answer = data;
-			}
+		success(function(data, status) {
+			$scope.status = status;
+			$scope.answer = data;
+		}
 		)
 		.
 		error(function(data, status) {
