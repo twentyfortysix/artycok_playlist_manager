@@ -7,11 +7,12 @@ Description: This theme is a playlist manager in it self, done for Artycok.TV
 Version: .01
 */
 body{background: #F3F3F3;}
-a{color:#268530}
+a{color:#12101A}
+a:hover{color:#12101A}
 ul, li{margin-left:0;padding-left;0;list-style-type: none;}
 li{padding: 3px;border-bottom:1px solid #fff;border-top:1px solid #fff;}
 li:hover{background:#fff;border-top:1px solid #D2D2D2;border-bottom:1px solid #D2D2D2;cursor: pointer;color:#000}
-.playlist_col{min-height:3em;background: #D4D4D4;display:block;padding:1em 0.5em 2em 0.5em;-webkit-box-shadow: inset 0 0 10px #aaa; box-shadow: inset 0 0 10px #aaa;-webkit-border-radius: 4px; border-radius: 4px;}
+.playlist_col{float: left;width: 100%;min-height:3em;background: #D4D4D4;display:block;padding:1em 0.5em 1em 0.5em;-webkit-box-shadow: inset 0 0 10px #aaa; box-shadow: inset 0 0 10px #aaa;-webkit-border-radius: 4px; border-radius: 4px;}
 .playlist_col:empty{background: url(images/loadinfo-d4d4d4-bg.gif) no-repeat center 5px }
 .playlist_col li{padding: 3px;border-bottom:1px solid #EFEFEF;border-top:1px solid #EFEFEF;}
 .playlist_col li:hover{background:#F3F3F3;}
@@ -43,6 +44,8 @@ input.tiny{width:30px}
   -webkit-transition: all 0.5s ease;}
 
 .header{text-align:center}
-.alignright{float: right;}
+.alignright{float: right;clear:both}
 button.clear-filter, input.input-filter{height:2em !important}
 .swith_true, .swith_true:hover{background:#BE2236;color:#fff;}
+.modal-body{width:525px;padding:15px 0 25px 15px}
+#player_modal_wrapper{margin:0 auto}

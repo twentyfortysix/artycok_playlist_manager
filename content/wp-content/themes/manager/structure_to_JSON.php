@@ -6,8 +6,9 @@ Template name: convert to JSON
 // $handle = fopen("list", "r");
 // Get a file into an array.  In this example we'll go through HTTP to get
 // the HTML source of a URL.
-// $file = file('http://manager.artycok.tv/content/wp-content/themes/manager/list'); // list_full
-$file = file('/var/www/cesnet/file_structure'); // list_full
+
+// $file = file('/var/www/cesnet/file_structure'); // local
+$file = file('/var/www/2046/www.artycok.tv/cesnet_drive/'); // server
 $output = array();
 // get user playlist if any
 $current_user = wp_get_current_user();

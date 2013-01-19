@@ -119,3 +119,32 @@ function remove_p($matches){
 	$output = str_replace("p", "", $matches);
 	return $output;
 }
+// create field for admin where teh password for remote machine will be stored
+$current_user = wp_get_current_user();
+$user_id = $current_user->ID;
+if($user_id == 1){
+	function playlist_add_custom_user_profile_fields( $user ) {
+	?>
+		<h3><?php _e('Remote machine password', '2046_playlist'); ?></h3>
+		<table class="form-table">
+			<tr>
+				<th>
+					<label for="password"><?php _e('Password', '2046_playlist'); ?>
+				</label></th>
+				<td>
+					<input type="password" name="remote_password" id="remote_password" value="<?php echo esc_attr( get_the_author_meta( 'remote_password', $user->ID ) ); ?>" class="regular-text" /><br />
+					<span class="description"><?php _e('remote TV BOX password.', '2046_playlist'); ?></span>
+				</td>
+			</tr>
+		</table>
+	<?php }
+	function playlist_save_custom_user_profile_fields( $user_id ) {
+		if ( !current_user_can( 'edit_user', $user_id ) )
+			return FALSE;
+		update_usermeta( $user_id, 'remote_password', $_POST['remote_password'] );
+	}
+	add_action( 'show_user_profile', 'playlist_add_custom_user_profile_fields' );
+	add_action( 'edit_user_profile', 'playlist_add_custom_user_profile_fields' );
+	add_action( 'personal_options_update', 'playlist_save_custom_user_profile_fields' );
+	add_action( 'edit_user_profile_update', 'playlist_save_custom_user_profile_fields' );
+}

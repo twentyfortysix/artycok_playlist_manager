@@ -58,7 +58,8 @@ jQuery(document).ready(function($) {
 
 	jwplayer('player_7526').setup({
 		<?php echo $jwplayer_playlist; ?>,
-		autostart: "true"
+		autostart : "true",
+		repeat : "true",
 		// playlist: [
 		// 	{ sources: [
 	 	//        { 
@@ -73,8 +74,8 @@ jQuery(document).ready(function($) {
 		//  ]
     	// width: viewportWidth,
     	// height: viewportHeight,
-    	// width: 600,
-    	// height: 400
+    	width: 600,
+    	height: 400
     });	
 });
 
